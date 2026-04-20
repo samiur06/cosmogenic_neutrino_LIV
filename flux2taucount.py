@@ -116,7 +116,7 @@ R_cut_EV = 1e4
 # ══════════════════════════════════════════════════════════════════
 SCENARIOS = {
     'no': ('2.60', 2.6, 1.5e46),
-    'SFR':          ('2.50', 2.5, 6.0e45 * 0.75),
+    'SFR':          ('2.50', 2.5, 4.5e45),
     'AGN':          ('2.40', 2.4, 3.5e45),
 }
 
@@ -252,43 +252,43 @@ def compute_tau_counts(
 
     return counts * experimental_factor(exp)
 
-# ## test SM counts
-# for flux_dummy in ['no', 'SFR']:
-#     for exp_dummy in ['grand200k','poemma']:
-#         d_dummy = 6
-#         LIVmatrix = np.zeros((3, 3), dtype=complex)
-#         LIVmatrix[1, 0] = 1e-58  # GeV^{-n}
-#         count_dummy = compute_tau_counts(
-#             flux_dummy, SCENARIOS, _EVOL,
-#             c_cm_s,
-#             d=d_dummy, a_eff=None, c_eff=None,
-#             exp=exp_dummy,
-#             det_flav=2,                         # 0=e, 1=mu, 2=tau (user-specified)
-#             n_bins=50, log_E_min=15.0, log_E_max=20.0)
+## test SM counts
+for flux_dummy in ['no', 'SFR']:
+    for exp_dummy in ['grand200k','poemma']:
+        d_dummy = 6
+        LIVmatrix = np.zeros((3, 3), dtype=complex)
+        LIVmatrix[1, 0] = 1e-58  # GeV^{-n}
+        count_dummy = compute_tau_counts(
+            flux_dummy, SCENARIOS, _EVOL,
+            c_cm_s,
+            d=d_dummy, a_eff=None, c_eff=None,
+            exp=exp_dummy,
+            det_flav=2,                         # 0=e, 1=mu, 2=tau (user-specified)
+            n_bins=50, log_E_min=15.0, log_E_max=20.0)
 
 
-#         """
-#         ### LIV effect test
-#         count_dummy = compute_tau_counts(
-#             flux_dummy, SCENARIOS, _EVOL,
-#             c_cm_s,
-#             d=d_dummy, a_eff=LIVmatrix, c_eff=LIVmatrix,
-#             exp=exp_dummy,
-#             det_flav=2,                         # 0=e, 1=mu, 2=tau (user-specified)
-#             n_bins=50, log_E_min=15.0, log_E_max=20.0)
-#         """
+        """
+        ### LIV effect test
+        count_dummy = compute_tau_counts(
+            flux_dummy, SCENARIOS, _EVOL,
+            c_cm_s,
+            d=d_dummy, a_eff=LIVmatrix, c_eff=LIVmatrix,
+            exp=exp_dummy,
+            det_flav=2,                         # 0=e, 1=mu, 2=tau (user-specified)
+            n_bins=50, log_E_min=15.0, log_E_max=20.0)
+        """
 
-#         print(flux_dummy, exp_dummy, count_dummy)
+        print(flux_dummy, exp_dummy, count_dummy)
 
-# dt = (timeit.default_timer()-t0)
-# print(f"time processed:{dt} s")
+dt = (timeit.default_timer()-t0)
+print(f"time processed:{dt} s")
 
 
-fluxtype=input("Enter fluxtype (SFR/no): ")
-exp=input("Enter experiment (poemma/ICgen2radio/grand200k): ")
-d=int(input("Enter dimension: "))
-print((fluxtype, exp, d))
-det_tau = 2
+# fluxtype=input("Enter fluxtype (SFR/no): ")
+# exp=input("Enter experiment (poemma/ICgen2radio/grand200k): ")
+# d=int(input("Enter dimension: "))
+# print((fluxtype, exp, d))
+# det_tau = 2
 
 
 ###guess list  
@@ -508,7 +508,7 @@ print(f"time processed:{np.round(dt,2)} s")
 """
 
 ### 4. blindspot count
-# """
+"""
 
 fluxtype='SFR'
 exp='grand200k'
@@ -652,7 +652,7 @@ with open(outfile, 'wb') as f:
  
 print(f"\nSaved → {outfile}")
 
-# """
+"""
 
 
 

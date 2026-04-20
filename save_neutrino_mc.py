@@ -114,7 +114,7 @@ R_cut_EV = 1e4
 # ══════════════════════════════════════════════════════════════════
 SCENARIOS = {
     'no': ('2.60', 2.6, 1.5e46),
-    'SFR':          ('2.50', 2.5, 6.0e45 * 0.75),
+    'SFR':          ('2.50', 2.5, 4.5e45),
     'AGN':          ('2.40', 2.4, 3.5e45),
 }
 
@@ -124,103 +124,6 @@ _EVOL = {
     'SFR' : S_SFR,
 }
 
-def run_flux_pipeline(cosmo_evolution, SCENARIOS, _EVOL,
-                      dtdz, c_cm_s, n_bins=24,
-                      log_E_min=9.0, log_E_max=21.0,
-                      data_dir="SimProp-v2r4/src/data_proton", out_dir="."):
-    """
-    creates all-flavor neutrino flux
-    """
-    spectral_idx_str, spectral_idx_val, _ = SCENARIOS[cosmo_evolution]
-
-    # ── Load ──────────────────────────────────────────────────────
-    branches = ["nNeu", "neuEnergy", "neuFlav", "injRedshift", "injEnergy", "injZ"]
-    file_list = [
-            f"{data_dir}_{cosmo_evolution}/{f}:summary;1"
-            for f in sorted(os.listdir(f"{data_dir}_{cosmo_evolution}"))
-            if f.endswith(".root")
-        ]
-    arrays        = uproot.concatenate(file_list, branches, library="ak")
-    injE_arr      = ak.to_numpy(arrays["injEnergy"])
-    neu_E_flat    = ak.to_numpy(ak.flatten(arrays["neuEnergy"]))
-    inj_z_per_neu, inj_E_per_neu = [
-        ak.to_numpy(ak.flatten(ak.broadcast_arrays(arrays[b], arrays["neuEnergy"])[0]))
-        for b in ("injRedshift", "injEnergy")
-    ]
-    N_protons = len(injE_arr)
-    print(f"Loaded  N_events={len(ak.to_numpy(arrays['nNeu'])):,}  "
-          f"N_neu={len(neu_E_flat):,}  [{cosmo_evolution}, γ={spectral_idx_str}]")
-
-    # ===============================
-    # SHAPE  (unnormalised)
-    # ===============================
-    def Q_shape(E, Z, gamma_inj):
-        E     = np.asarray(E, dtype=float)
-        Gamma = E / mp_eV
-        spec  = np.where(Gamma < Gamma0, Gamma**(-2), Gamma**(-gamma_inj))
-        return spec * np.exp(-E / (Z * R_cut_EV * 1e18))
-
-    # ===============================
-    # BUILD Q0_spectrum FOR ONE SCENARIO
-    # ===============================
-    def make_Q0_spectrum(scenario, Z=1):
-        """
-        Returns a normalised injection-spectrum function for the given scenario.
-        Q0_spectrum(E_eV) in cm^{-3} s^{-1} eV^{-1}
-        """
-        _, gamma_inj, L0_cgs = SCENARIOS[scenario]
-        L0_si = L0_cgs / Mpc_cm**3 / yr_s          # erg cm^{-3} s^{-1}
-
-        I, _ = quad(lambda lE: np.log(10) * (10**lE)**2 * Q_shape(10**lE, Z, gamma_inj),
-                    np.log10(E_sim_min_eV), np.log10(E_sim_max_eV),
-                    limit=500, epsrel=1e-12)
-
-        A_norm = L0_si / (I * eV_erg)
-        return lambda E_eV: A_norm * Q_shape(E_eV, Z, gamma_inj)
-
-    # ===============================
-    # BUILD & TEST ALL SCENARIOS
-    # ===============================
-    E_sim_min_eV = injE_arr.min()
-    E_sim_max_eV = injE_arr.max()
-
-    Q0_funcs = {}
-    for name, (_, gamma_inj, L0_cgs) in SCENARIOS.items():
-        Q0_funcs[name] = make_Q0_spectrum(name)
-    
-    # ── Weights ───────────────────────────────────────────────────
-    E_min, E_max = injE_arr.min(), injE_arr.max()
-    g = spectral_idx_val
-    C = (1.0 / np.log(E_max / E_min)) if np.isclose(g, 1.0) \
-        else (1.0 - g) / (E_max**(1.0 - g) - E_min**(1.0 - g))
-
-    w = (
-        (c_cm_s / (4.0 * np.pi))
-        * (1.0 / N_protons)
-        * _EVOL[cosmo_evolution](inj_z_per_neu)
-        * dtdz(inj_z_per_neu)
-        * 10.0                                        # Delta_z
-        * Q0_funcs[cosmo_evolution](inj_E_per_neu)
-        / (C * inj_E_per_neu**(-g))
-    )
-
-    # ── Flux ──────────────────────────────────────────────────────
-    log_edges = np.linspace(log_E_min, log_E_max, n_bins + 1)
-    E_cents   = 10**(0.5 * (log_edges[:-1] + log_edges[1:]))
-    dE_eV     = E_cents * np.log(10) * (log_edges[1] - log_edges[0])
-    bin_idx   = np.digitize(np.log10(neu_E_flat), log_edges) - 1
-    valid     = (bin_idx >= 0) & (bin_idx < n_bins)
-
-    J_bins  = np.array([np.sum(w[valid & (bin_idx == k)]) / dE_eV[k] for k in range(n_bins)])
-    E2J_GeV = E_cents**2 * J_bins * 1e-9
-    print(f"Peak E²J ({cosmo_evolution}): {np.max(E2J_GeV):.3e} GeV cm⁻² s⁻¹ sr⁻¹")
-
-    # ── Save ──────────────────────────────────────────────────────
-    fname = f"{out_dir}/flux_{cosmo_evolution}_g{spectral_idx_str}.npy"
-    np.save(fname, np.column_stack([E_cents, E2J_GeV]))
-    print(f"Saved {fname}\n")
-
-    return None 
 
 ### saves necessary data for each neutrino from the root files
 def save_per_neu_arrays(cosmo_evolution, data_dir="SimProp-v2r4/src/data_proton", out_dir="data/flux_array"):

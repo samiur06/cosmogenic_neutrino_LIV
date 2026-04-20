@@ -234,13 +234,8 @@ def compute_tau_counts(
 
     A_eff_bins = np.maximum(_area_map[exp](E_cents), 0.0)   # (n_bins,) [cm² sr]
     # ── Count integrand at bin centres ────────────────────────────────────────
-    # Original integrand: J(E) * (1/EnuGeV²) * 1e-9 * A_eff(E)  [s⁻¹ eV⁻¹]
-    # Equivalent compact form: J(E) * A_eff(E) / E²  * unit_factor
-    unit_factor   = 1e9                              # (1 GeV/eV)² / (1 GeV/eV) → eV → GeV cancel
     integrand_bins = J_bins * A_eff_bins # (n_bins,) [s⁻¹ eV⁻¹]
-    # integrand_bins = (E2J_GeV/ E_cents**2 ) * A_eff_bins * unit_factor   # (n_bins,) [s⁻¹ eV⁻¹]
 
-    # print(integrand_bins)
     # ── Integrate in log-energy (trapezoidal, exact for piecewise log-log) ────
     # ∫ f(E) dE = ∫ f(E)·E·ln10  d(log₁₀E)
     # evaluated at bin centres with spacing Δ(log₁₀E) = log_edges[1]-log_edges[0]
@@ -284,3 +279,5 @@ for flux_test in ['no', 'SFR']:
 
 dt = (timeit.default_timer()-t0)
 print(f"time processed:{dt} s")
+
+

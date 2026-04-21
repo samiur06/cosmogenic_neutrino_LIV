@@ -155,19 +155,10 @@ def compute_tau_counts(
     neu_E_flat    = arr["neu_E_flat"]
     zOri_per_neu  = arr["zOri_per_neu"]      
     N_neu         = len(inj_z_per_neu)
-    injE_arr = arr["injE_arr"]
+    injE_arr_min_max = arr["injE_arr_min_max"]
     N_protons = arr["N_protons"]    
 
-
-    # # ── N_protons and injection energy bounds (for Q0 norm and C) ─────────────
-    # file_list = [
-    #     f"{data_dir}_{cosmo_evolution}/{f}:summary;1"
-    #     for f in sorted(os.listdir(f"{data_dir}_{cosmo_evolution}"))
-    #     if f.endswith(".root")
-    # ]
-    # injE_arr     = ak.to_numpy(uproot.concatenate(file_list, ["injEnergy"], library="ak")["injEnergy"])
-    # N_protons    = len(injE_arr)
-    E_min, E_max = injE_arr.min(), injE_arr.max()
+    E_min, E_max = injE_arr_min_max.min(), injE_arr_min_max.max()
 
     # ── Spectral reweighting ──────────────────────────────────────────────────
     C = (1.0 / np.log(E_max / E_min)) if np.isclose(g, 1.0) \

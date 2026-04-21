@@ -189,7 +189,7 @@ def save_per_neu_arrays(cosmo_evolution, data_dir="SimProp-v2r4/src/data_proton"
         cosmo_weight  = cosmo_weight,
         neu_E_flat    = neu_E_flat,
         zOri_per_neu  = zOri_per_neu,  
-        injE_arr = injE_arr,
+        injE_arr_min_max = [injE_arr.min(), injE_arr.max()],
         N_protons = N_protons,    
     )
 

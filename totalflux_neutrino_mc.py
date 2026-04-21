@@ -333,6 +333,8 @@ ax.legend(fontsize=12.5, frameon=False, ncol=1)
 ax.tick_params(axis='both', which='both', direction='in',
                top=True, right=True, bottom=True, left=True,
                labelsize=12)
+ax.tick_params(axis='both', which='major', length=6, width=1.5)
+ax.tick_params(axis='both', which='minor', length=3, width=1.0)
 
 annotations = {
     "ARA":        (3944567848.379701,    1.1810717055349855e-08),
@@ -359,7 +361,8 @@ for i, (display_label, (x, y)) in enumerate(annotations.items()):
 
 ax.xaxis.set_tick_params(which='both', top=True)
 ax.yaxis.set_tick_params(which='both', right=True)
+
 plt.tight_layout()
-# plt.savefig('figures/fitted_flux_with_sensitivities.pdf', dpi=400, bbox_inches='tight')
+plt.savefig('figures/fitted_flux_with_sensitivities.pdf', dpi=400, bbox_inches='tight')
 plt.show()
 

@@ -140,6 +140,10 @@ def save_per_neu_arrays(cosmo_evolution, data_dir="SimProp-v2r4/src/data_proton"
         ["event", "neuEnergy", "neuFlav", "injRedshift", "injEnergy", "injZ"],
         library="ak",
     )
+
+    injE_arr = ak.to_numpy(arrays["injEnergy"]) # all the inj energies
+    N_protons = len(injE_arr)    
+
     broadcast    = lambda field: ak.to_numpy(ak.flatten(ak.broadcast_arrays(arrays[field], arrays["neuEnergy"])[0]))
     neu_E_flat   = ak.to_numpy(ak.flatten(arrays["neuEnergy"]))
     flav_per_neu = ak.to_numpy(ak.flatten(arrays["neuFlav"]))
@@ -184,22 +188,21 @@ def save_per_neu_arrays(cosmo_evolution, data_dir="SimProp-v2r4/src/data_proton"
         flav_per_neu  = flav_per_neu,
         cosmo_weight  = cosmo_weight,
         neu_E_flat    = neu_E_flat,
-        zOri_per_neu  = zOri_per_neu,      
+        zOri_per_neu  = zOri_per_neu,  
+        injE_arr = injE_arr,
+        N_protons = N_protons,    
     )
 
-    N_protons = len(ak.to_numpy(arrays["injEnergy"]))
     print(f"Saved  N_protons={N_protons:,}  N_neu={len(neu_E_flat):,}  →  {out_path}")
     return out_path
 
 ### save neutrino data files for various cosmological source cases
 ### uncomment if you want to extract them from SimProp ROOT files and save them
 ### ROOT files location must be correct, as taken in base_dir variable inside the function save_per_neu_arrays  
-"""
-cosmo_keys  = ['no', 'SFR', 'AGN']
+# """
+cosmo_keys  = ['no', 'SFR']
 for ic, evol in enumerate(cosmo_keys):
     save_per_neu_arrays(evol)
     print(f"time processed:{np.round(timeit.default_timer()-t0,2)} s")
-"""
-
-
+# """
 

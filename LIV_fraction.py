@@ -21,7 +21,6 @@ from scipy.integrate import quad
 from scipy.optimize import brentq
 from scipy.stats import chi2
 import ast
-import ternary
 
 t0 = timeit.default_timer()
 
@@ -255,24 +254,5 @@ def flavor_fraction_redshifted(E, z, dm21, dm31,
     return comp 
 
 
-###############################################################
-##### CAN WE GO FASTER?
-###############################################################
-
-
 ###############################################################    
-# Integration limits in eV
-E_min = 1e15      # 1 PeV = 1e15 eV
-E_max = 100e18      # 100 EeV = 1e20 eV
-year = 365*24*3600
-# """
-# LIVmatrix = np.zeros((3, 3), dtype=complex)
 
-# LIVmatrix[0,1] = 1e-35  # GeV^{-n}
-
-# ak10 = prob_avg_redshifted(np.logspace(15,17,10), np.linspace(0,1,10), 
-#     4, a_eff=LIVmatrix, c_eff=LIVmatrix )#[0,0]
-
-# print(ak10)
-
-# """

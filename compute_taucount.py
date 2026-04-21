@@ -26,7 +26,6 @@ from itertools import combinations
 from itertools import product
 
 import ast
-import ternary
 import awkward as ak
 
 import uproot 

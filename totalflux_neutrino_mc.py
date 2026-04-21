@@ -24,7 +24,6 @@ from scipy.stats import chi2
 from scipy.interpolate import make_interp_spline
 
 import ast
-import ternary
 import awkward as ak
 
 import uproot 

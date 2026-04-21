@@ -24,7 +24,6 @@ from scipy.stats import chi2
 from scipy.interpolate import make_interp_spline
 
 import ast
-import ternary
 import awkward as ak
 
 import uproot 
@@ -189,8 +188,8 @@ def save_per_neu_arrays(cosmo_evolution, data_dir="SimProp-v2r4/src/data_proton"
         cosmo_weight  = cosmo_weight,
         neu_E_flat    = neu_E_flat,
         zOri_per_neu  = zOri_per_neu,  
-        # injE_arr_min_max = [injE_arr.min(), injE_arr.max()],
-        # N_protons = N_protons,    
+        injE_arr_min_max = [injE_arr.min(), injE_arr.max()],
+        N_protons = N_protons,    
     )
 
     print(f"Saved  N_protons={N_protons:,}  N_neu={len(neu_E_flat):,}  →  {out_path}")
@@ -199,10 +198,10 @@ def save_per_neu_arrays(cosmo_evolution, data_dir="SimProp-v2r4/src/data_proton"
 ### save neutrino data files for various cosmological source cases
 ### uncomment if you want to extract them from SimProp ROOT files and save them
 ### ROOT files location must be correct, as taken in base_dir variable inside the function save_per_neu_arrays  
-# """
-cosmo_keys  = ['no']#, 'SFR']
+"""
+cosmo_keys  = ['no', 'SFR']
 for ic, evol in enumerate(cosmo_keys):
     save_per_neu_arrays(evol)
     print(f"time processed:{np.round(timeit.default_timer()-t0,2)} s")
-# """
+"""
 

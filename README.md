@@ -61,6 +61,18 @@ The expected number of neutrino events for any flavor can be computed directly f
 | GRAND200k  | SFR          | 580.33 | 277.81 |
 | POEMMA     | SFR          | 11.89  | 3.54  | 
 
+ for the flux with 
+
+<div align="center">
+<figure>
+  <img width="700" height="490" alt="image" src="https://github.com/user-attachments/assets/4a867818-e0b4-43c9-90c1-b15de35845a7" />
+  <figcaption> Fig. Number of tau neutrino events as a function of LIV parameters at GRAND for the neutrino flux with SFR evolution. </figcaption>
+</figure>
+</div>
+
+
+
+
 ---
 
 ## Scripts 

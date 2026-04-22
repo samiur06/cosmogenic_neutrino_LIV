@@ -40,10 +40,10 @@ If LaTeX in Matplotlib is not supported, comment out the LaTeX rendering lines.
 
 ## Workflow
 
-1. Generate `SimProp` MC events. It is *optional* as derived data are provided (also see step 3).
+1. Generate `SimProp` MC events. It is **optional** as derived data are provided (also see step 3).
 2. To produce Fig. 2, run `totalflux_neutrino_mc.py` to generate the flux sensitivity plot using the saved files in `data/total_neutrino_flux`. Optionally, you may uncomment the snippet in that script to create flux from the function `run_flux_pipeline` using `SimProp` ROOT files. This is independent of steps 3 and 4.
-3. Run `save_neutrino_mc.py` to read `SimProp` ROOT files and save per-flavor neutrino flux arrays to `data/flux_array`. This is *optional* as the derived data are provided in that directory. 
-4. Run `compute_taucount.py` to compute the expected tau neutrino event counts in GRAND and POEMMA for a given LIV parameter. You can change the detected flavor to compute other neutrino species (muon and electron neutrinos) as well. 
+3. Run `save_neutrino_mc.py` to read `SimProp` ROOT files and save per-flavor neutrino flux arrays to `data/flux_array`. This is **optional** as the derived data are provided in that directory. 
+4. Run `compute_taucount.py` to compute the expected tau neutrino event counts in GRAND and POEMMA for a given LIV parameter. You can change the detected flavor to compute other neutrino species (muon and electron neutrinos) as well. Users can calculate event count for other future experiments sensitive to the similar energy range with the experimental effective area provided (`area_info.py` is to be updated).  
 
 
 ---

@@ -1,7 +1,6 @@
 # cosmogenic_neutrino_LIV
 
-Code released with arXiv:xxxx:xxxxxx. 
-Code for computing cosmogenic (ultra-high energy) neutrino fluxes and tau neutrino event counts in the presence of Lorentz Invariance Violation (LIV). The cosmogenic neutrino flux is produced using the ultra-high-energy cosmic rays Monte Carlo (MC) events from [SimProp-v2r4](https://github.com/SimProp/SimProp-v2r4) simulation.
+Code released with arXiv:xxxx:xxxxxx, for computing cosmogenic neutrino fluxes and tau neutrino event counts in the presence of Lorentz Invariance Violation (LIV). The cosmogenic neutrino flux is produced using the ultra-high-energy cosmic rays Monte Carlo (MC) events from [SimProp-v2r4](https://github.com/SimProp/SimProp-v2r4) simulation.
 
 We share the code to construct all-flavor and flavor-specific cosmogenic neutrino flux (including the effect of flavor transition) from the MC events. 
 
@@ -40,7 +39,7 @@ If LaTeX in Matplotlib is not supported, comment out the LaTeX rendering lines.
 
 ## Workflow
 
-Number of events can be computed with step 4, skipping steps 1-3. 
+The expected number of neutrino events for any flavor can be computed directly from step 4, skipping steps 1–3.
 
 1. Generate `SimProp` MC events. It is **optional** as derived data are provided (also see step 3).
 2. To produce Fig. 2 from the paper (shown below), run `totalflux_neutrino_mc.py` to generate the flux sensitivity plot using the saved flux files in `data/total_neutrino_flux` and experimental results and projections from `NeuExpSensitivity`. Optionally, you may uncomment the snippet in that script to create flux from the function `run_flux_pipeline` using `SimProp` ROOT files. The all-flavor flux calculation and plot is independent of steps 3 and 4.
@@ -53,7 +52,7 @@ Number of events can be computed with step 4, skipping steps 1-3.
 </div>
 
 3. Run `save_neutrino_mc.py` to read `SimProp` ROOT files and save per-flavor neutrino flux arrays to `data/flux_array`. This is **optional** as the derived data are provided in that directory. 
-4. Run `compute_taucount.py` to compute the expected tau neutrino event counts in GRAND and POEMMA for a given LIV parameter. You can change the detected flavor to compute other neutrino species (muon and electron neutrinos) as well. Users can calculate event count for other future experiments sensitive to the similar energy range with the experimental effective area provided (`area_info.py` is to be updated). For example, an example snippet, at the end of the script, provides the follwing event counts:
+4. Run `compute_taucount.py` to compute the expected tau neutrino event counts in GRAND and POEMMA for a given LIV parameter. You can change the detected flavor (`det_flav`) to compute other neutrino species as well (`det_flav = 0, 1, 2` corresponds to electron, muon, and tau neutrinos, default being `2`). Users can calculate event count for other experiments sensitive to a similar energy range with the experimental effective area provided (`area_info.py` is to be updated). An example snippet, at the end of the script, provides the following event counts:
 
 | Experiment | Redshift evolution | $N_\tau$ (standard) | $N_\tau$ ($\mathring{\kappa}^{(6)}_{e\mu} = 10^{-58}\ \text{GeV}^{-2}$) |
 |:-----------:|:----------:|--------------------:|:-------------------------------------------------------------------------:|
@@ -65,8 +64,6 @@ Number of events can be computed with step 4, skipping steps 1-3.
 ---
 
 ## Scripts 
-
-## Scripts
 
 | Script name | Description |
 |:------:|:------------|
@@ -106,7 +103,7 @@ Generating new MC events is optional, since the necessary derived data are provi
 Events can be generated from [SimProp-v2r4](https://github.com/SimProp/SimProp-v2r4) simulation. Event generation follows the procedure described in the [SimProp-v2r4 paper (arXiv:1705.03729)](https://arxiv.org/abs/1705.03729), 
 which is the key reference for the flux computation in `totalflux_neutrino_mc.py` and `save_neutrino_mc.py`.
 
-The ROOT files directory (MC events) must be set correctly in the function `run_flux_pipeline` in `totalflux_neutrino_mc.py` and the function `save_per_neu_arrays` in `save_neutrino_mc.py`. Furthermore, the ROOT files directory is `{data_dir}_{cosmo_evolution}` inside these functions, it can be changed to the user's preference. 
+The ROOT files directory (MC events) must be set correctly in the function `run_flux_pipeline` in `totalflux_neutrino_mc.py` and the function `save_per_neu_arrays` in `save_neutrino_mc.py`. The ROOT files directory `{data_dir}_{cosmo_evolution}` is evaluated inside these functions,  which can be changed to user-specific path containing the ROOT files. 
 
-The spectral index used to generate the events and the source emissivity applied to compute the fluxes can be found in both the scripts and the paper. The dictionary `SCENARIOS` contains this information in the scripts. This dictionary must be updated in the scripts for a different spectral index and source emissivity. emissivity may vary; however, spectral index should match the value used to produce the events. 
+The spectral index used to generate the events and the source emissivity applied to compute the fluxes can be found in both the scripts and the paper. The dictionary `SCENARIOS` contains this information in the scripts. This dictionary must be updated in the scripts for different spectral indices and source emissivities. The emissivity can take any reasonable value, but the spectral index should match the value used to produce the events. 
 

@@ -16,7 +16,7 @@ Feel free to contact via [GitHub](https://github.com/samiur06) for any questions
 - [Workflow](#workflow)
 - [Scripts](#scripts)
 - [Directory Structure](#directory-structure)
-- [SimProp MC Events](#simprop-mc-events-optional)
+- [SimProp MC Events](#simprop-mc-events)
 
 ---
 
@@ -40,6 +40,8 @@ If LaTeX in Matplotlib is not supported, comment out the LaTeX rendering lines.
 
 ## Workflow
 
+Number of events can be computed with step 4, skipping steps 1-3. 
+
 1. Generate `SimProp` MC events. It is **optional** as derived data are provided (also see step 3).
 2. To produce Fig. 2, run `totalflux_neutrino_mc.py` to generate the flux sensitivity plot using the saved files in `data/total_neutrino_flux`. Optionally, you may uncomment the snippet in that script to create flux from the function `run_flux_pipeline` using `SimProp` ROOT files. This is independent of steps 3 and 4.
 3. Run `save_neutrino_mc.py` to read `SimProp` ROOT files and save per-flavor neutrino flux arrays to `data/flux_array`. This is **optional** as the derived data are provided in that directory. 
@@ -50,26 +52,15 @@ If LaTeX in Matplotlib is not supported, comment out the LaTeX rendering lines.
 
 ## Scripts 
 
-### `totalflux_neutrino_mc.py`
+## Scripts
 
-Reads `SimProp` Monte Carlo ROOT file(s) and saves the all-flavor cosmogenic neutrino flux (stored in `data/total_neutrino_flux/`).
-Produces a flux plot comparing two source redshift evolution models — Star Formation Rate (SFR) evolution and no source evolution — overlaid with experimental constraints and sensitivities from the `NeuExpSensitivity/` directory. The resulting figures are saved in `figures/` and correspond to Fig. 2 in the paper.
-
-### `save_neutrino_mc.py`
-
-Reads `SimProp` Monte Carlo ROOT file(s) and saves events containing neutrinos of a particular flavor. The saved outputs (stored in `data/flux_array/`) are used to compute the cosmogenic neutrino flux and the expected number of neutrino events for that flavor.
-
-### `LIV_fraction.py`
-
-Computes the neutrino flavor transition probability and flavor fraction in the presence of LIV. The output is used by `compute_taucount.py` to determine the tau neutrino fraction for a given LIV parameter value.
-
-### `area_info.py`
-
-Provides the effective area or geometric aperture (including field of view) and detector runtime for the experiments. Loads and processes the relevant files from the `eff_area/` directory.
-
-### `compute_taucount.py`
-
-Computes the expected number of tau neutrino events in GRAND and POEMMA for a given LIV parameter value. Requires the flux arrays saved by `save_neutrino_mc.py` (from `data/flux_array`), the flavor fraction functions from `LIV_fraction.py`, and experiment-specific area/aperture from `area_info.py`.
+| Script name | Description |
+|:------:|:------------|
+| `totalflux_neutrino_mc.py` | Reads `SimProp` Monte Carlo ROOT file(s) and saves the all-flavor cosmogenic neutrino flux (stored in `data/total_neutrino_flux/`). Produces a flux plot comparing SFR evolution and no source evolution models, overlaid with experimental constraints from `NeuExpSensitivity/`. Figures saved in `figures/` correspond to Fig. 2 in the paper. |
+| `save_neutrino_mc.py` | Reads `SimProp` Monte Carlo ROOT file(s) and saves events containing neutrinos of a particular flavor. Outputs stored in `data/flux_array/` are used to compute the cosmogenic neutrino flux and expected number of neutrino events for that flavor. |
+| `LIV_fraction.py` | Computes the neutrino flavor transition probability and flavor fraction in the presence of LIV. Output is used by `compute_taucount.py` to determine the tau neutrino fraction for a given LIV parameter value. |
+| `area_info.py` | Provides the effective area or geometric aperture (including field of view) and detector runtime for the experiments. Loads and processes relevant files from the `eff_area/` directory. |
+| `compute_taucount.py` | Computes the expected number of tau neutrino events in GRAND and POEMMA for a given LIV parameter value. Requires flux arrays from `save_neutrino_mc.py` (`data/flux_array/`), flavor fraction functions from `LIV_fraction.py`, and experiment-specific area/aperture from `area_info.py`. |
 
 ---
 
@@ -95,10 +86,13 @@ cosmogenic_neutrino_LIV/
 
 ## `SimProp` MC Events (optional)
 
-Event generation follows the procedure described in the [SimProp-v2r4 paper (arXiv:1705.03729)](https://arxiv.org/abs/1705.03729), 
+Generating new MC events is optional, since the necessary derived data are provided in the `data` directory to reproduce our results. 
+
+
+Events can be generated from [SimProp-v2r4](https://github.com/SimProp/SimProp-v2r4) simulation. Event generation follows the procedure described in the [SimProp-v2r4 paper (arXiv:1705.03729)](https://arxiv.org/abs/1705.03729), 
 which is the key reference for the flux computation in `totalflux_neutrino_mc.py` and `save_neutrino_mc.py`.
 
-Generating new MC events is optional — the necessary derived data are already provided in the `data` directory. If users wish to simulate new events under different conditions, the MC event paths must be set correctly in `totalflux_neutrino_mc.py` and `save_neutrino_mc.py`.
+The ROOT files directory (MC events) must be set correctly in the function `run_flux_pipeline` in `totalflux_neutrino_mc.py` and the function `save_per_neu_arrays` in `save_neutrino_mc.py`. Furthermore, the ROOT files directory is `{data_dir}_{cosmo_evolution}` inside these functions, it can be changed to the user's preference. 
 
-The spectral index used to generate the events and the source emissivity applied to compute the fluxes can be found in both the scripts and the paper.
+The spectral index used to generate the events and the source emissivity applied to compute the fluxes can be found in both the scripts and the paper. The dictionary `SCENARIOS` contains this information in the scripts. This dictionary must be updated in the scripts for a different spectral index and source emissivity. emissivity may vary; however, spectral index should match the value used to produce the events. 
 

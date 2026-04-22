@@ -50,6 +50,7 @@ Number of events can be computed with step 4, skipping steps 1-3.
 </figure>
 3. Run `save_neutrino_mc.py` to read `SimProp` ROOT files and save per-flavor neutrino flux arrays to `data/flux_array`. This is **optional** as the derived data are provided in that directory. 
 4. Run `compute_taucount.py` to compute the expected tau neutrino event counts in GRAND and POEMMA for a given LIV parameter. You can change the detected flavor to compute other neutrino species (muon and electron neutrinos) as well. Users can calculate event count for other future experiments sensitive to the similar energy range with the experimental effective area provided (`area_info.py` is to be updated). For example, an example snippet, at the end of the script, provides the follwing event counts:
+
 | Experiment | Redshift evolution | $N_\tau$ (standard) | $N_\tau$ ($\mathring{\kappa}^{(6)}_{e\mu} = 10^{-58}\ \text{GeV}^{-2}$) |
 |:-----------:|:----------:|--------------------:|:-------------------------------------------------------------------------:|
 | GRAND200k  | No evolution | 172.61 | 90.89 |

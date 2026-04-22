@@ -43,26 +43,24 @@ If LaTeX in Matplotlib is not supported, comment out the LaTeX rendering lines.
 Number of events can be computed with step 4, skipping steps 1-3. 
 
 1. Generate `SimProp` MC events. It is **optional** as derived data are provided (also see step 3).
-2. To produce Fig. 2 from the paper (shown below), run `totalflux_neutrino_mc.py` to generate the flux sensitivity plot using the saved files in `data/total_neutrino_flux`. Optionally, you may uncomment the snippet in that script to create flux from the function `run_flux_pipeline` using `SimProp` ROOT files. This is independent of steps 3 and 4.
+2. To produce Fig. 2 from the paper (shown below), run `totalflux_neutrino_mc.py` to generate the flux sensitivity plot using the saved flux files in `data/total_neutrino_flux` and experimental results and projections from `NeuExpSensitivity`. Optionally, you may uncomment the snippet in that script to create flux from the function `run_flux_pipeline` using `SimProp` ROOT files. The all-flavor flux calculation and plot is independent of steps 3 and 4.
 
 <div align="center">
 <figure>
   <img width="700" height="490" alt="fitted_flux_with_sensitivities" src="https://github.com/user-attachments/assets/00be58a2-f14c-4b4a-b39b-7a0655ceba86" />
-  <figcaption>All-flavor cosmogenic neutrino flux for SFR and no-evolution models, with experimental constraints and sensitivities.</figcaption>
+  <figcaption> _Fig. All-flavor cosmogenic neutrino flux for SFR and no-evolution models, with experimental constraints and sensitivities._ </figcaption>
 </figure>
 </div>
 
 3. Run `save_neutrino_mc.py` to read `SimProp` ROOT files and save per-flavor neutrino flux arrays to `data/flux_array`. This is **optional** as the derived data are provided in that directory. 
 4. Run `compute_taucount.py` to compute the expected tau neutrino event counts in GRAND and POEMMA for a given LIV parameter. You can change the detected flavor to compute other neutrino species (muon and electron neutrinos) as well. Users can calculate event count for other future experiments sensitive to the similar energy range with the experimental effective area provided (`area_info.py` is to be updated). For example, an example snippet, at the end of the script, provides the follwing event counts:
 
-<div align="center">
 | Experiment | Redshift evolution | $N_\tau$ (standard) | $N_\tau$ ($\mathring{\kappa}^{(6)}_{e\mu} = 10^{-58}\ \text{GeV}^{-2}$) |
 |:-----------:|:----------:|--------------------:|:-------------------------------------------------------------------------:|
 | GRAND200k  | No evolution | 172.61 | 90.89 |
 | POEMMA     | No evolution | 3.31   | 1.15  |
 | GRAND200k  | SFR          | 580.33 | 277.81 |
 | POEMMA     | SFR          | 11.89  | 3.54  | 
-</div>
 
 ---
 
@@ -70,7 +68,6 @@ Number of events can be computed with step 4, skipping steps 1-3.
 
 ## Scripts
 
-<div align="center">
 | Script name | Description |
 |:------:|:------------|
 | `totalflux_neutrino_mc.py` | Reads `SimProp` Monte Carlo ROOT file(s) and saves the all-flavor cosmogenic neutrino flux (stored in `data/total_neutrino_flux/`). Produces a flux plot comparing SFR evolution and no source evolution models, overlaid with experimental constraints from `NeuExpSensitivity/`. Figures saved in `figures/` correspond to Fig. 2 in the paper. |
@@ -78,7 +75,7 @@ Number of events can be computed with step 4, skipping steps 1-3.
 | `LIV_fraction.py` | Computes the neutrino flavor transition probability and flavor fraction in the presence of LIV. Output is used by `compute_taucount.py` to determine the tau neutrino fraction for a given LIV parameter value. |
 | `area_info.py` | Provides the effective area or geometric aperture (including field of view) and detector runtime for the experiments. Loads and processes relevant files from the `eff_area/` directory. |
 | `compute_taucount.py` | Computes the expected number of tau neutrino events in GRAND and POEMMA for a given LIV parameter value. Requires flux arrays from `save_neutrino_mc.py` (`data/flux_array/`), flavor fraction functions from `LIV_fraction.py`, and experiment-specific area/aperture from `area_info.py`. |
-</div>
+
 ---
 
 ## Directory Structure

@@ -48,7 +48,7 @@ Number of events can be computed with step 4, skipping steps 1-3.
 <div align="center">
 <figure>
   <img width="700" height="490" alt="fitted_flux_with_sensitivities" src="https://github.com/user-attachments/assets/00be58a2-f14c-4b4a-b39b-7a0655ceba86" />
-  <figcaption> _Fig. All-flavor cosmogenic neutrino flux for SFR and no-evolution models, with experimental constraints and sensitivities._ </figcaption>
+  <figcaption> Fig. All-flavor cosmogenic neutrino flux for SFR and no-evolution models, with experimental constraints and sensitivities. </figcaption>
 </figure>
 </div>
 

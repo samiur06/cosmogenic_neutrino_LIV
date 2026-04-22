@@ -247,7 +247,7 @@ for flux_test in ['no', 'SFR']:
     for exp_test in ['grand200k','poemma']:
         d_test = 6
         LIVmatrix = np.zeros((3, 3), dtype=complex)
-        LIVmatrix[1, 0] = 1e-58  # GeV^{-n}
+        LIVmatrix[0, 1] = 1e-58  # GeV^{-n}
         
         SM_count_test = compute_tau_counts(
             flux_test, SCENARIOS, _EVOL,

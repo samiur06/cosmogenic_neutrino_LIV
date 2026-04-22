@@ -111,7 +111,8 @@ Gamma0 = 1e8
 R_cut_EV = 1e4
 
 # ══════════════════════════════════════════════════════════════════
-# SCENARIOS: (spectral_idx, ...) — auto-selects spectral_idx
+# SCENARIOS: (spectral_idx string, spectral_idx, emissivity) 
+# — auto-selects spectral_idx and emissivity for the flux
 # ══════════════════════════════════════════════════════════════════
 SCENARIOS = {
     'no': ('2.60', 2.6, 1.5e46),
@@ -185,7 +186,8 @@ def compute_tau_counts(
     flavinc = np.abs(flav_per_neu).astype(int) - 1   # MC convention: 1/2/3 → 0/1/2
 
     # ── Oscillation probability: P(nu_{flavinc[i]} → nu_{det_flav}) ──────────
-    # neu_E_flat: MC neutrino energies — correct input to prob
+    # neu_E_flat: neutrino energy at Earth
+    # zOri_per_neu: redshift at neutrino production
     prob_matrix  = prob_avg_redshifted(neu_E_flat, zOri_per_neu, d, a_eff, c_eff)  # (N,3,3)
     prob_per_neu = prob_matrix[np.arange(N_neu), flavinc, det_flav]                 # (N,)
     # ── Per-event weights ─────────────────────────────────────────────────────

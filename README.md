@@ -44,8 +44,9 @@ Number of events can be computed with step 4, skipping steps 1-3.
 
 1. Generate `SimProp` MC events. It is **optional** as derived data are provided (also see step 3).
 2. To produce Fig. 2, run `totalflux_neutrino_mc.py` to generate the flux sensitivity plot using the saved files in `data/total_neutrino_flux`. Optionally, you may uncomment the snippet in that script to create flux from the function `run_flux_pipeline` using `SimProp` ROOT files. This is independent of steps 3 and 4.
+
 <figure>
-  <img src="figures/fitted_flux_with_sensitivities.pdf" alt="All-flavor cosmogenic neutrino flux compared with experimental constraints and sensitivities">
+  <img width="2070" height="1470" alt="fitted_flux_with_sensitivities-1" src="https://github.com/user-attachments/assets/00be58a2-f14c-4b4a-b39b-7a0655ceba86" />
   <figcaption>All-flavor cosmogenic neutrino flux for SFR and no-evolution models, overlaid with experimental constraints and sensitivities.</figcaption>
 </figure>
 3. Run `save_neutrino_mc.py` to read `SimProp` ROOT files and save per-flavor neutrino flux arrays to `data/flux_array`. This is **optional** as the derived data are provided in that directory. 

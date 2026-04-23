@@ -4,9 +4,8 @@ Code released with [arXiv:2604.19880](https://arxiv.org/abs/2604.19880), for com
 
 We share the code to construct all-flavor and flavor-specific cosmogenic neutrino flux (including the effect of flavor transition) from the MC events. 
 
-Feel free to contact via [GitHub](https://github.com/samiur06) for any questions.
+*Please cite our paper [arXiv:2604.19880](https://arxiv.org/abs/2604.19880) if you use any of our code/results.* Feel free to contact via [GitHub](https://github.com/samiur06) for any questions.
 
-*Please cite our paper [arXiv:2604.19880](https://arxiv.org/abs/2604.19880) if you use any of our code/results.* 
 
 ---
 

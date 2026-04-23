@@ -6,7 +6,7 @@ We share the code to construct all-flavor and flavor-specific cosmogenic neutrin
 
 Feel free to contact via [GitHub](https://github.com/samiur06) for any questions.
 
-*Please cite us if you use any of our code/results.* 
+*Please cite our paper [arXiv:2604.19880](https://arxiv.org/abs/2604.19880) if you use any of our code/results.* 
 
 ---
 

@@ -45,7 +45,7 @@ The expected number of neutrino events for any flavor can be computed directly f
 
 <div align="center">
 <figure>
-  <img width="700" height="490" alt="fitted_flux_with_sensitivities" src="https://github.com/user-attachments/assets/00be58a2-f14c-4b4a-b39b-7a0655ceba86" />
+  <img width="700" height="490" alt="fitted_flux_with_sensitivities" src="https://github.com/user-attachments/assets/21752c9f-17dc-4b2b-b879-dd589557ec37" />
   <figcaption> Fig. All-flavor cosmogenic neutrino flux for SFR and no-evolution models, with experimental constraints and sensitivities. </figcaption>
 </figure>
 </div>

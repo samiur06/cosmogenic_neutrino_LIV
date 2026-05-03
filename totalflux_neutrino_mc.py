@@ -268,7 +268,7 @@ csv_files = sorted(glob.glob(os.path.join(SENS_DIR, "*.csv")))
 label_list = [#'ANITA', 
               'ARA', 'IC-12p6yrdata','Auger', 'BEACON',  
                'POEMMA','GRAND', 'ARIANNA', 'PUEO', 
-              'TAMBO', 'Trinity', 'Gen2-radio']
+              'TAMBO', 'Trinity', 'Gen2-radio_optical']
 
 PALETTE = [
     "#D55E00",  # vermillion
@@ -323,6 +323,7 @@ for i, label in enumerate(label_list):
     idx  = inside[int(frac * (len(inside) - 1))]
     idx  = np.clip(idx, 1, len(E) - 1)
 
+# ax.set(xscale='log', yscale='log')
 ax.set(xscale='log', yscale='log', xlim=(xmin, xmax), ylim=(ymin, ymax),
        xlabel=r'$E$  [GeV]', ylabel=r'All-flavor neutrino flux $E^2 \Phi(E)$  [GeV cm$^{-2}$ s$^{-1}$ sr$^{-1}$]')
 ax.xaxis.label.set_size(12.5)
@@ -336,32 +337,39 @@ ax.tick_params(axis='both', which='major', length=6, width=1.5)
 ax.tick_params(axis='both', which='minor', length=3, width=1.0)
 
 annotations = {
-    "ARA":        (3944567848.379701,    1.1810717055349855e-08),
+    "ARA":        (2244567848.379701,    1.1810717055349855e-08),
     "IceCube":    (11284702.978554811,    1.051120913898513e-08),
     "Auger":      (2109454111.585128,    6.806390270707948e-08),
-    "BEACON":     (310295724.31684166,    5.545146566306185e-10),
-    "POEMMA":     (44508392.56985678,    1.559612755705455e-8),
-    "GRAND":      (36665812.9682111,     5.7910014443109861e-10),
+    "BEACON":     (22295724.31684166,    2.545146566306185e-9),
+    "POEMMA":     (38508392.56985678,    9.559612755705455e-9),
+    "GRAND":      (66665812.9682111,     2.6910014443109861e-10),
     "ARIANNA":    (170295724.31684166,    4.785382458429474e-09),
     "PUEO":       (510295724.31684166,    5.229098637671127e-08),
-    "TAMBO":      (5963379.614088885,    7.87018445600869e-10),
-    "Trinity":    (154111399.89501002,     1.4428364646881043e-09),
-    "Gen2-radio": (4144567848.379701,     4.91532591651244e-10),
+    "TAMBO":      (6.5e6,    5.57018445600869e-10), #5957279.614088885
+    "Trinity":    (1584111399.89501002,     2.4428364646881043e-09),
+    "IceCube Gen2": (474456784.379701,     6.91532591651244e-10),
 }
 
 for i, (display_label, (x, y)) in enumerate(annotations.items()):
-    ax.annotate(display_label,
-                xy=(x, y),
-                xytext=(23, -15), textcoords="offset points",
-                fontsize=12, color=colors[i],
-                ha='left', va='bottom',
-                clip_on=True)
-#     print(display_label, colors[i])
+    if display_label == "TAMBO":
+        ax.annotate(display_label,
+                    xy=(x, y),
+                    xytext=(0, 0), textcoords="offset points",
+                    fontsize=12, color=colors[i],
+                    ha='left', va='bottom',
+                    clip_on=False)
+    else:
+        ax.annotate(display_label,
+                    xy=(x, y),
+                    xytext=(23, -15), textcoords="offset points",
+                    fontsize=12, color=colors[i],
+                    ha='left', va='bottom',
+                    clip_on=True)
 
 ax.xaxis.set_tick_params(which='both', top=True)
 ax.yaxis.set_tick_params(which='both', right=True)
 
 plt.tight_layout()
-plt.savefig('figures/fitted_flux_with_sensitivities.pdf', dpi=400, bbox_inches='tight')
+# plt.savefig('figures/fitted_flux_with_sensitivities.pdf', dpi=400, bbox_inches='tight')
 plt.show()
 
